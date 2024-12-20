@@ -3,13 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
-import { Archive, House, Plus, Settings } from "lucide-react";
+import { Archive, House, Plus, Settings, Tag } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 
 export default async function Home() {
   const file = await fs.readFile(process.cwd() + '/src/lib/data.json', 'utf-8')
   const data = JSON.parse(file)
+
+  const tags = data.notes.map((note) => note.tags)
+  const tagsArray = [...new Set(tags.flat())]
 
   return (
     // <div className="h-screen flex flex-col">
@@ -95,6 +98,12 @@ export default async function Home() {
               </TabsList>
             </Tabs>
             <Separator className="bg-neutral-200 mt-2" />
+            {tagsArray.sort().map((tag) => (
+              <div key={tag} className="flex items-center gap-x-2 px-3 py-2.5">
+                <Tag strokeWidth={1.5} />
+                {tag}
+              </div>
+            ))}
           </div>
         </div>
       </aside>
