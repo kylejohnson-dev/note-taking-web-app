@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Archive, House, Plus, Settings, Tag } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import Dashboard from "@/components/dashboard";
 
 export default async function Home() {
   const file = await fs.readFile(process.cwd() + '/src/lib/data.json', 'utf-8')
@@ -72,102 +73,7 @@ export default async function Home() {
     // </div>
 
     <>
-      {/* Sidebar */}
-      <aside className="absolute top-0 bottom-0 left-0 w-[272px] bg-white border-r border-neutral-200 px-4 py-3">
-        <div className="flex flex-col gap-y-4">
-          <div className="py-3">
-            <img src="/logo.svg" alt="logo" />
-          </div>
-          <div>
-            <Tabs defaultValue="all-notes">
-              <TabsList className="h-auto flex flex-col items-stretch gap-y-1 bg-white p-0">
-                <TabsTrigger 
-                  value="all-notes"
-                  className="justify-start gap-x-2 text-neutral-950 font-[family-name:var(--font-inter)] text-[14px] font-medium leading-[120%] -tracking-[0.2px] px-3 py-2.5"
-                >
-                  <House strokeWidth={1.5} className="w-5 h-5" />
-                  All Notes
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="archived-notes"
-                  className="justify-start gap-x-2 text-neutral-950 font-[family-name:var(--font-inter)] text-[14px] font-medium leading-[120%] -tracking-[0.2px] px-3 py-2.5"
-                >
-                  <Archive strokeWidth={1.5} className="w-5 h-5" />
-                  Archived Notes
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-            <Separator className="bg-neutral-200 mt-2" />
-            {tagsArray.sort().map((tag) => (
-              <div key={tag} className="flex items-center gap-x-2 px-3 py-2.5">
-                <Tag strokeWidth={1.5} />
-                {tag}
-              </div>
-            ))}
-          </div>
-        </div>
-      </aside>
-      {/* Navbar */}
-      <header className="absolute top-0 left-[272px] right-0 h-[81px] border-b border-neutral-200 bg-white px-8">
-        <div className="w-full h-full flex items-center justify-between">
-          <div>
-            <h1 className="text-neutral-950 font-[family-name:var(--font-inter)] text-[24px] font-bold leading-[120%] -tracking-[0.5px]">All Notes</h1>
-          </div>
-          <div className="flex items-center gap-x-4">
-            <Input 
-              placeholder="Search by title, content, or tags..." 
-              className="w-[268px]"
-            />
-            <Button variant="ghost" size="icon">
-              <Settings />
-            </Button>
-          </div>
-        </div>
-      </header>
-      {/* Main */}
-      <main className="absolute top-[81px] bottom-0 left-[272px] right-0 flex bg-white">
-        <ScrollArea className="w-[242px] flex flex-col border-r border-neutral-200 px-4 py-5">
-          <Button className="w-full">
-            <Plus />
-            Create New Note
-          </Button>
-          {data.notes.length ? (
-            // Full stste - with notes
-            <Tabs>
-              <TabsList className="h-auto flex flex-col items-stretch gap-y-1 bg-white p-0 mt-4">
-                {data.notes.filter((note) => !note.isArchived).map((n) => {
-                  const { title, tags, lastEdited } = n
-                  const date = new Date(lastEdited).toDateString().slice(4)
-
-                  return (
-                    <>
-                      <TabsTrigger
-                        key={title}
-                        value={title}
-                        className="flex-col items-start justify-start gap-y-3 p-2"
-                      >
-                        <h2 className="text-wrap text-left text-neutral-950 font-[family-name:var(--font-inter)] text-[16px] font-semibold leading-[120%] -tracking-[0.3px]">{title}</h2>
-                        <div className="flex items-center gap-1 flex-wrap">
-                          {tags.map((tag: string) => <Badge key={tag}>{tag}</Badge>)}
-                        </div>
-                        <p className="text-neutral-700 font-[family-name:var(--font-inter)] text-[12px] leading-[120%] -tracking-[0.2px]">{date}</p>
-                      </TabsTrigger>
-                      <Separator className="my-1" />
-                    </>
-                  )
-                })}
-              </TabsList>
-            </Tabs>
-          ) : (
-            // Empty state - no notes
-            <div className="bg-neutral-100 rounded-[8px] border border-neutral-200 p-2 mt-4">
-              <p className="text-neutral-950 font-[family-name:var(--font-inter)] text-[14px] leading-[130%] -tracking-[0.2px]">You don&#39;t have any notes yet. Start a new note to capture your thoughts and ideas.</p>
-            </div>
-          )
-        }
-        </ScrollArea>
-        <div className=""></div>
-      </main>
+      <Dashboard notes={data.notes} />
     </>
   );
 }
