@@ -164,7 +164,7 @@ export default function Dashboard({ notes }) {
               <Button variant="secondary">Cancel</Button>
             </div>
           </div>
-          <div className="w-[258px] flex flex-col gap-y-3 px-4 py-5 ml-auto">
+          <div className="hidden w-[258px] lg:flex flex-col gap-y-3 px-4 py-5 ml-auto">
             <Button className="gap-x-2">
               <Archive />
               Archive Note
