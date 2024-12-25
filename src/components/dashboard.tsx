@@ -20,9 +20,7 @@ type DashBoardProps = {
 export default function Dashboard({ notes }: DashBoardProps) {
   const [activeTag, setActiveTag] = useState<string>('all')
 
-  const tags = notes.map((note) => note.tags)
-  const tagsArray = [...new Set(tags.flat())]
-  tagsArray.push('all', 'archived')
+  const tags = [... new Set(notes.map((note) => note.tags).flat())]
 
   const filteredNotes = (tag: string): Note[] => {
     if (tag === 'all') return notes
@@ -54,7 +52,7 @@ export default function Dashboard({ notes }: DashBoardProps) {
                 onClick={() => setActiveTag('all')}
                 className={cn(
                   "flex items-center justify-start gap-x-2 text-neutral-950 font-[family-name:var(--font-inter)] text-[14px] font-medium leading-[120%] -tracking-[0.2px] px-3 py-2.5",
-                  activeTag === 'all' ? 'bg-black text-white' : '',
+                  activeTag === 'all' ? 'bg-black text-white hover:bg-black hover:text-white' : '',
                 )}
               >
                 <House className="w-5 h-5" />
@@ -66,7 +64,7 @@ export default function Dashboard({ notes }: DashBoardProps) {
                 onClick={() => setActiveTag('archived')}
                 className={cn(
                   "flex items-center justify-start gap-x-2 text-neutral-950 font-[family-name:var(--font-inter)] text-[14px] font-medium leading-[120%] -tracking-[0.2px] px-3 py-2.5",
-                  activeTag === 'archived' ? 'bg-black text-white' : '',
+                  activeTag === 'archived' ? 'bg-black text-white hover:bg-black hover:text-white' : '',
                 )}
               >
                 <Archive className="w-5 h-5" />
@@ -75,11 +73,20 @@ export default function Dashboard({ notes }: DashBoardProps) {
             </div>
             <Separator className="bg-neutral-200 mt-2" />
             <p className="text-neutral-500 font-[family-name:var(--font-inter)] text-[14px] font-medium leading-[120%] -tracking-[0.2px] px-2 my-2">Tags</p>
-            {tagsArray.sort().map((tag) => (
-              <button key={tag} onClick={() => setActiveTag(tag)} className="flex items-center gap-x-2 px-3 py-2.5">
+            {tags.sort().map((tag) => (
+              <Button
+                key={tag} 
+                value={tag}
+                variant="ghost"
+                onClick={() => setActiveTag(tag)} 
+                className={cn(
+                  "w-full flex items-center justify-start gap-x-2 text-neutral-950 font-[family-name:var(--font-inter)] text-[14px] font-medium leading-[120%] -tracking-[0.2px] px-3 py-2.5",
+                  activeTag === tag ? 'bg-black text-white hover:bg-black hover:text-white' : '',
+                )}
+              >
                 <Tag strokeWidth={1.5} className="w-5 h-5" />
                 {tag}
-              </button>
+              </Button>
             ))}
           </ScrollArea>
         </div>
