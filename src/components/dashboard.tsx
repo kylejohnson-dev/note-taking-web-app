@@ -177,7 +177,7 @@ export default function Dashboard({ notes }: DashBoardProps) {
               <Textarea 
                 value="Key performance optimization techniques:\n\n1. Code Splitting\n- Use React.lazy() for route-based splitting\n- Implement dynamic imports for heavy components\n\n2. Memoization\n- useMemo for expensive calculations\n- useCallback for function props\n- React.memo for component optimization\n\n3. Virtual List Implementation\n- Use react-window for long lists\n- Implement infinite scrolling\n\nTODO: Benchmark current application and identify bottlenecks"
                 className="resize-none  shadow-none rounded-none border-none p-0"
-                
+
               >
               </Textarea>
             </div>
